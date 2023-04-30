@@ -7,28 +7,32 @@ const Book = ({ book }) => {
   const [img, setImg] = useState();
 
   // When we switch routes dont set image to unmounted component
-  const mountedRef = useRef(true);
+  const mountedRef = useRef(false);
 
   useEffect(() => {
     const image = new Image();
     image.src = book.url;
-    image.onLoad = () => {
+    image.onload = () => {
       setTimeout(() => {
-        if (mountedRef.current) {
           setImg(image);
-        }
-      }, 300);
+      }, 400);
     };
     return () => {
       // When the component unmounts 
       mountedRef.current = false;
     };
-  }, [book.url]);
+  },[book.url]);
 
+  useEffect(() => {
+    if (img) {
+      mountedRef.current = true;
+    }
+  }, [img])
 
   return (
     <div className="book">
-      {img ? (
+      {console.log(img)}
+      {img ? ( 
         <>
           <Link to={`/books/${book.id}`}>
             <figure className="book__img--wrapper">
@@ -56,6 +60,7 @@ const Book = ({ book }) => {
       )}
     </div>
   );
+
 };
 
 export default Book;

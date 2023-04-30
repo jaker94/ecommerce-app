@@ -63,7 +63,6 @@ const Nav = ({numberOfItems}) => {
             </div>
         </nav>
     )
- 
 }
 
 export default Nav;
