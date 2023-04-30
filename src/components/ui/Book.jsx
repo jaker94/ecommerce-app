@@ -4,12 +4,33 @@ import Price from "./Price";
 import Rating from "./Rating";
 
 const Book = ({ book }) => {
+  const [img, setImg] = useState();
+
+  // When we switch routes dont set image to unmounted component
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    const img = new img();
+    img.src = book.url;
+    img.onLoad = () => {
+      setTimeout(() => {
+        if (mountedRef.current) {
+          setImg(image);
+        }
+      }, 300);
+    };
+    return () => {
+      // When the component unmounts 
+      mountedRef.current = false;
+    };
+  }, [book.url]);
+
 
   return (
     <div className="book">
       {img ? (
         <>
-          <Link t67 o={`/books/${book.id}`}>
+          <Link to={`/books/${book.id}`}>
             <figure className="book__img--wrapper">
               <img src={img.src} alt="" className="book__img" />
             </figure>
